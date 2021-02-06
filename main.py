@@ -47,11 +47,15 @@ import bunch
 # plt.show()
 
 ### Task 2 ### 
-mnistFile = "mnist.p"
-# mnist = fetch_openml('mnist_784', version=1)
+mnistFile = "mnist.cache"
 
-# pickle.dump([mnist], open(mnistFile, "wb"))
+# if the mnist cache exists, then read that file
+if path.exists(mnistFile):
+    mnist = pickle.load(open(mnistFile, "rb"))[0]
 
-mnistLoad = pickle.load(open(mnistFile, "rb"))[0]
-# mnist = Bunch(mnistLoad)
-print(mnistLoad.target)
+# otherwise fetch the dataset and create the cache 
+else: 
+    mnist = fetch_openml('mnist_784', version=1)
+    pickle.dump([mnist], open(mnistFile, "wb"))
+
+print(mnist)
