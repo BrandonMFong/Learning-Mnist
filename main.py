@@ -17,8 +17,8 @@ from operator import mod
 import pandas as pd
 import numpy as np 
 import matplotlib.pyplot as plt 
-from sklearn.linear_model import LinearRegression
-from sklearn.datasets import load_iris, fetch_openml, load_boston
+from sklearn.linear_model import LinearRegression, LogisticRegression
+from sklearn.datasets import load_iris, fetch_openml, load_boston, load_digits
 import pprint
 from sklearn import linear_model
 from sklearn.model_selection import train_test_split
@@ -48,7 +48,9 @@ import bunch
 
 ### Task 2 ### 
 mnistFile = "mnist.cache"
+logisticRegressionHandler = LogisticRegression()
 
+# Get the mnist data set 
 # if the mnist cache exists, then read that file
 if path.exists(mnistFile):
     mnist = pickle.load(open(mnistFile, "rb"))[0]
@@ -58,4 +60,9 @@ else:
     mnist = fetch_openml('mnist_784', version=1)
     pickle.dump([mnist], open(mnistFile, "wb"))
 
-print(mnist)
+dataArray = np.array(mnist.data) # Put in numpy array 
+print(dataArray[0])
+print(mnist.target)
+
+plt.imshow(dataArray[0].reshape((28,28)))
+plt.show()
