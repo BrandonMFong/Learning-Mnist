@@ -49,6 +49,10 @@ import bunch
 ### Task 2 ### 
 mnistFile = "mnist.cache"
 logisticRegressionHandler = LogisticRegression()
+dataArray = np.zeros(1) # initialize the variable 
+numberWeWant = '5'
+digitIndexArray = np.zeros(1) 
+
 
 # Get the mnist data set 
 # if the mnist cache exists, then read that file
@@ -60,9 +64,19 @@ else:
     mnist = fetch_openml('mnist_784', version=1)
     pickle.dump([mnist], open(mnistFile, "wb"))
 
-dataArray = np.array(mnist.data) # Put in numpy array 
-print(dataArray[0])
-print(mnist.target)
+# attempt to lower the iterations and complexity 
+# digitDataFrame = pd.DataFrame({"Digits":mnist.target[:]})
+# targetData = digitDataFrame[digitDataFrame['Digits'] == numberWeWant]
+# digitIndexArray = targetData.index
+# sourceData = mnist.data.loc[digitIndexArray]
+# logisticRegressionHandler.fit(sourceData, pd.to_numeric(targetData['Digits']))
 
-plt.imshow(dataArray[0].reshape((28,28)))
-plt.show()
+# The iterations reached its limit 
+logisticRegressionHandler.max_iter = 70000
+logisticRegressionHandler.fit(mnist.data, mnist.target)
+# print(targetData)
+
+# Plot the number image 
+# dataArray = np.array(mnist.data) # Put in numpy array for image display 
+# plt.imshow(dataArray[0].reshape((28,28)))
+# plt.show()
