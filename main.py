@@ -74,11 +74,12 @@ logisticRegressionHandler.fit(sourceData, pd.to_numeric(targetData['Digits']))
 
 # do next two hundred for testing
 testTargetData = pd.DataFrame({"Digits":mnist.target[maxNumbersToFit:(2*maxNumbersToFit)]})
-testSourceData = mnist.data.loc[targetData.index]
+testSourceData = mnist.data.loc[testTargetData.index]
 prediction = logisticRegressionHandler.predict(testSourceData)
 print(prediction)
 print(confusion_matrix(pd.to_numeric(testTargetData['Digits']), prediction))
 print(classification_report(pd.to_numeric(testTargetData['Digits']), prediction))
+
 # Plot the number image 
 # dataArray = np.array(mnist.data) # Put in numpy array for image display 
 # plt.imshow(dataArray[0].reshape((28,28)))
