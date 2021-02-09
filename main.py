@@ -55,6 +55,9 @@ numberWeWant = ['5','6']
 digitIndexArray = np.zeros(1) 
 maxNumbersToFit = 200
 
+print("*** PLEASE NOTE THAT I PUT A MAX ITERATION LIMIT TO LOWER THE COMPUTATIONS IN THIS SCRIPT ***\n")
+print("Max iterations = ", maxNumbersToFit, '\n')
+
 # Get the mnist data set 
 # if the mnist cache exists, then read that file
 if path.exists(mnistFile):
@@ -66,7 +69,6 @@ else:
     pickle.dump([mnist], open(mnistFile, "wb"))
 
 # attempt to lower the iterations and complexity 
-# digitDataFrame = pd.DataFrame({"Digits":mnist.target[:]})
 targetData = pd.DataFrame({"Digits":mnist.target[:maxNumbersToFit]})
 digitIndexArray = targetData.index
 sourceData = mnist.data.loc[digitIndexArray]
@@ -76,11 +78,5 @@ logisticRegressionHandler.fit(sourceData, pd.to_numeric(targetData['Digits']))
 testTargetData = pd.DataFrame({"Digits":mnist.target[maxNumbersToFit:(2*maxNumbersToFit)]})
 testSourceData = mnist.data.loc[testTargetData.index]
 prediction = logisticRegressionHandler.predict(testSourceData)
-print(prediction)
 print(confusion_matrix(pd.to_numeric(testTargetData['Digits']), prediction))
 print(classification_report(pd.to_numeric(testTargetData['Digits']), prediction))
-
-# Plot the number image 
-# dataArray = np.array(mnist.data) # Put in numpy array for image display 
-# plt.imshow(dataArray[0].reshape((28,28)))
-# plt.show()
