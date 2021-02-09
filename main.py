@@ -26,6 +26,7 @@ import os.path
 from os import path 
 import pickle
 import bunch
+from sklearn.metrics import confusion_matrix, classification_report
 
 ### Task 1 ### 
 # iris = load_iris()
@@ -52,7 +53,7 @@ logisticRegressionHandler = LogisticRegression()
 dataArray = np.zeros(1) # initialize the variable 
 numberWeWant = ['5','6']
 digitIndexArray = np.zeros(1) 
-
+maxNumbersToFit = 200
 
 # Get the mnist data set 
 # if the mnist cache exists, then read that file
@@ -66,17 +67,18 @@ else:
 
 # attempt to lower the iterations and complexity 
 # digitDataFrame = pd.DataFrame({"Digits":mnist.target[:]})
-targetData = pd.DataFrame({"Digits":mnist.target[:100]})
-# targetData = digitDataFrame[(digitDataFrame['Digits'] == '5') | (digitDataFrame['Digits'] == '6')]
+targetData = pd.DataFrame({"Digits":mnist.target[:maxNumbersToFit]})
 digitIndexArray = targetData.index
 sourceData = mnist.data.loc[digitIndexArray]
 logisticRegressionHandler.fit(sourceData, pd.to_numeric(targetData['Digits']))
 
-# The iterations reached its limit 
-# logisticRegressionHandler.max_iter = 70000
-logisticRegressionHandler.fit(sourceData, targetData)
-# print(targetData)
-
+# do next two hundred for testing
+testTargetData = pd.DataFrame({"Digits":mnist.target[maxNumbersToFit:(2*maxNumbersToFit)]})
+testSourceData = mnist.data.loc[targetData.index]
+prediction = logisticRegressionHandler.predict(testSourceData)
+print(prediction)
+print(confusion_matrix(pd.to_numeric(testTargetData['Digits']), prediction))
+print(classification_report(pd.to_numeric(testTargetData['Digits']), prediction))
 # Plot the number image 
 # dataArray = np.array(mnist.data) # Put in numpy array for image display 
 # plt.imshow(dataArray[0].reshape((28,28)))
