@@ -50,7 +50,7 @@ import bunch
 mnistFile = "mnist.cache"
 logisticRegressionHandler = LogisticRegression()
 dataArray = np.zeros(1) # initialize the variable 
-numberWeWant = '5'
+numberWeWant = ['5','6']
 digitIndexArray = np.zeros(1) 
 
 
@@ -66,14 +66,15 @@ else:
 
 # attempt to lower the iterations and complexity 
 # digitDataFrame = pd.DataFrame({"Digits":mnist.target[:]})
-# targetData = digitDataFrame[digitDataFrame['Digits'] == numberWeWant]
-# digitIndexArray = targetData.index
-# sourceData = mnist.data.loc[digitIndexArray]
-# logisticRegressionHandler.fit(sourceData, pd.to_numeric(targetData['Digits']))
+targetData = pd.DataFrame({"Digits":mnist.target[:100]})
+# targetData = digitDataFrame[(digitDataFrame['Digits'] == '5') | (digitDataFrame['Digits'] == '6')]
+digitIndexArray = targetData.index
+sourceData = mnist.data.loc[digitIndexArray]
+logisticRegressionHandler.fit(sourceData, pd.to_numeric(targetData['Digits']))
 
 # The iterations reached its limit 
-logisticRegressionHandler.max_iter = 70000
-logisticRegressionHandler.fit(mnist.data, mnist.target)
+# logisticRegressionHandler.max_iter = 70000
+logisticRegressionHandler.fit(sourceData, targetData)
 # print(targetData)
 
 # Plot the number image 
