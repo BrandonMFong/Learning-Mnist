@@ -69,8 +69,13 @@ def task2():
     prediction = logisticRegressionHandler.predict(testSourceData)
     print(confusion_matrix(pd.to_numeric(testTargetData['Digits']), prediction))
     print(classification_report(pd.to_numeric(testTargetData['Digits']), prediction))
-    comparision = pd.DataFrame({"Data index" : testTargetData.index, "Real values" : mnist.target[maxNumbersToFit:(2*maxNumbersToFit)], "Prediction" : prediction})
-    print(comparision)
+    comparison = pd.DataFrame({"Data index" : testTargetData.index, "Real values" : mnist.target[maxNumbersToFit:(2*maxNumbersToFit)], "Prediction" : prediction})
+    # comparison['Result'] = comparison['Real Values'] == comparison['Prediction']
+    # print(comparison['Real Values'] == comparison['Prediction'])
+    
+    # dataArray = np.array(mnist.data) # Put in numpy array for image display 
+    # plt.imshow(dataArray[396].reshape((28,28)))
+    # plt.show()
 
 
 if __name__ == '__main__':
