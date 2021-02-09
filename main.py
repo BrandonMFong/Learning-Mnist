@@ -29,54 +29,61 @@ import bunch
 from sklearn.metrics import confusion_matrix, classification_report
 
 ### Task 1 ### 
-# iris = load_iris()
-# linearRegressionHandler = LinearRegression()
-# sampleData = pd.read_csv("B:\\COLLEGE\\20_21\\Spring21\\CES514\\Homework\\Week2\\sample_data.csv", index_col=0) # use index_col to tell which column has the row index 
+def task1():
+    iris = load_iris()
+    linearRegressionHandler = LinearRegression()
+    sampleData = pd.read_csv("B:\\COLLEGE\\20_21\\Spring21\\CES514\\Homework\\Week2\\sample_data.csv", index_col=0) # use index_col to tell which column has the row index 
 
 
-# x_train, x_test, y_train, y_test = train_test_split(sampleData['X'], sampleData['Y'], test_size=0.2, random_state=0)
+    x_train, x_test, y_train, y_test = train_test_split(sampleData['X'], sampleData['Y'], test_size=0.2, random_state=0)
 
-# x_train = x_train.reshape(-1, 1)
-# y_train = y_train.reshape(-1, 1)
-# x_test = x_test.reshape(-1, 1)
+    x_train = x_train.reshape(-1, 1)
+    y_train = y_train.reshape(-1, 1)
+    x_test = x_test.reshape(-1, 1)
 
-# linearRegressionHandler.fit(x_train, y_train)
+    linearRegressionHandler.fit(x_train, y_train)
 
-# result = linearRegressionHandler.predict(x_test)
+    result = linearRegressionHandler.predict(x_test)
 
-# plt.plot(result,'.')
-# plt.show()
+    plt.plot(result,'.')
+    plt.show()
 
 ### Task 2 ### 
-mnistFile = "mnist.cache"
-logisticRegressionHandler = LogisticRegression()
-dataArray = np.zeros(1) # initialize the variable 
-numberWeWant = ['5','6']
-digitIndexArray = np.zeros(1) 
-maxNumbersToFit = 200
+def task2():
+    mnistFile = "mnist.cache"
+    logisticRegressionHandler = LogisticRegression()
+    dataArray = np.zeros(1) # initialize the variable 
+    numberWeWant = ['5','6']
+    digitIndexArray = np.zeros(1) 
+    maxNumbersToFit = 200
 
-print("*** PLEASE NOTE THAT I PUT A MAX ITERATION LIMIT TO LOWER THE COMPUTATIONS IN THIS SCRIPT ***\n")
-print("Max iterations = ", maxNumbersToFit, '\n')
+    print("*** PLEASE NOTE THAT I PUT A MAX ITERATION LIMIT TO LOWER THE COMPUTATIONS IN THIS SCRIPT ***\n")
+    print("Max iterations = ", maxNumbersToFit, '\n')
 
-# Get the mnist data set 
-# if the mnist cache exists, then read that file
-if path.exists(mnistFile):
-    mnist = pickle.load(open(mnistFile, "rb"))[0]
+    # Get the mnist data set 
+    # if the mnist cache exists, then read that file
+    if path.exists(mnistFile):
+        mnist = pickle.load(open(mnistFile, "rb"))[0]
 
-# otherwise fetch the dataset and create the cache 
-else: 
-    mnist = fetch_openml('mnist_784', version=1)
-    pickle.dump([mnist], open(mnistFile, "wb"))
+    # otherwise fetch the dataset and create the cache 
+    else: 
+        mnist = fetch_openml('mnist_784', version=1)
+        pickle.dump([mnist], open(mnistFile, "wb"))
 
-# attempt to lower the iterations and complexity 
-targetData = pd.DataFrame({"Digits":mnist.target[:maxNumbersToFit]})
-digitIndexArray = targetData.index
-sourceData = mnist.data.loc[digitIndexArray]
-logisticRegressionHandler.fit(sourceData, pd.to_numeric(targetData['Digits']))
+    # attempt to lower the iterations and complexity 
+    targetData = pd.DataFrame({"Digits":mnist.target[:maxNumbersToFit]})
+    digitIndexArray = targetData.index
+    sourceData = mnist.data.loc[digitIndexArray]
+    logisticRegressionHandler.fit(sourceData, pd.to_numeric(targetData['Digits']))
 
-# do next two hundred for testing
-testTargetData = pd.DataFrame({"Digits":mnist.target[maxNumbersToFit:(2*maxNumbersToFit)]})
-testSourceData = mnist.data.loc[testTargetData.index]
-prediction = logisticRegressionHandler.predict(testSourceData)
-print(confusion_matrix(pd.to_numeric(testTargetData['Digits']), prediction))
-print(classification_report(pd.to_numeric(testTargetData['Digits']), prediction))
+    # do next two hundred for testing
+    testTargetData = pd.DataFrame({"Digits":mnist.target[maxNumbersToFit:(2*maxNumbersToFit)]})
+    testSourceData = mnist.data.loc[testTargetData.index]
+    prediction = logisticRegressionHandler.predict(testSourceData)
+    print(confusion_matrix(pd.to_numeric(testTargetData['Digits']), prediction))
+    print(classification_report(pd.to_numeric(testTargetData['Digits']), prediction))
+
+
+if __name__ == '__main__':
+    task1()
+    task2()
