@@ -77,7 +77,6 @@ def task2():
     # plt.imshow(dataArray[396].reshape((28,28)))
     # plt.show()
 
-
 if __name__ == '__main__':
     task1()
     task2()
